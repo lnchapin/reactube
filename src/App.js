@@ -20,8 +20,13 @@ componentDidMount(){
 
 searchYoutube = term =>{
   API.searchVideos(term)
-    .then(res => this.setState({ videos: res.data.items, selectedVideo: res.data.items[0]}))
+    .then(res => this.setState({ videos: res.data.items, selectedVideo: res.data.items[0]})
+  )
     .catch( err => console.log(err))
+}
+
+selectVideo = video => {
+  this.setState({selectedVideo: video })
 }
 
 
@@ -39,10 +44,14 @@ searchYoutube = term =>{
           </Col>
           <Col md="3">
             <VideoList>
-              <VideoListItem />
-              <VideoListItem />
-              <VideoListItem />
-              <VideoListItem />
+              {this.state.videos.map(video =>(
+                <VideoListItem
+                  video={video}
+                  key={video.id.videoId}
+                  selectedVideo={this.state.selectedVideo}
+                  selectVideo={this.selectVideo}
+                />
+              ))}
             </VideoList>
           </Col>
         </Row>
