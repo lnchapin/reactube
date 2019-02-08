@@ -4,6 +4,7 @@ import SearchBar from './components/SearchBar';
 import VideoDetail from './components/VideoDetail';
 import { VideoList, VideoListItem } from './components/VideoList';
 import API from './utils/API';
+import _ from "lodash";
 
 
 class App extends Component {
@@ -29,13 +30,14 @@ selectVideo = video => {
   this.setState({selectedVideo: video })
 }
 
+throttledSearch = _.debounce(this.searchYoutube, 800)
 
   render() {
     return (
       <Container>
         <Row>
           <Col>
-            <SearchBar />
+            <SearchBar searchYoutube={this.throttledSearch}/>
           </Col>
         </Row>
         <Row>
@@ -47,7 +49,7 @@ selectVideo = video => {
               {this.state.videos.map(video =>(
                 <VideoListItem
                   video={video}
-                  key={video.id.videoId}
+                  key={video.id.videoId || video.id.playlistId}
                   selectedVideo={this.state.selectedVideo}
                   selectVideo={this.selectVideo}
                 />
