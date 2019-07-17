@@ -25,7 +25,6 @@ export const VideoList = props => {
     <List>
       {props.children}
     </List>
-
   )
 }
 
